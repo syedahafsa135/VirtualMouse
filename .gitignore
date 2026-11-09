@@ -1,0 +1,12 @@
+# Secrets (Cloudinary keys) - never commit
+.streamlit/secrets.toml
+.env
+
+# Screenshots taken by the app
+my_screenshot_*.png
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/

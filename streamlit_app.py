@@ -84,14 +84,16 @@ def detect_gesture(frame, hand_landmarks):
     left_angle = util.get_angle(landmark_list[5], landmark_list[6], landmark_list[8])
     right_angle = util.get_angle(landmark_list[9], landmark_list[10], landmark_list[12])
 
-    if left_angle < 50 and thumb_index_dist > 50:
+    # Check the two-finger gestures first; otherwise "Left Click" would always match
+    # before "Double Click" and double-click could never trigger.
+    if left_angle < 50 and right_angle < 50 and thumb_index_dist < 50:
+        gesture = "Screenshot"
+    elif left_angle < 50 and right_angle < 50 and thumb_index_dist > 50:
+        gesture = "Double Click"
+    elif left_angle < 50 and thumb_index_dist > 50:
         gesture = "Left Click"
     elif right_angle < 50 and thumb_index_dist > 50:
         gesture = "Right Click"
-    elif left_angle < 50 and right_angle < 50 and thumb_index_dist > 50:
-        gesture = "Double Click"
-    elif left_angle < 50 and right_angle < 50 and thumb_index_dist < 50:
-        gesture = "Screenshot"
 
     if gesture == "Left Click" and current_time - last_left_click_time > gesture_delay:
         mouse.press(Button.left)
