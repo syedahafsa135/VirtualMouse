@@ -1,7 +1,8 @@
 # 🖱️ Virtual Mouse: Hand-Gesture Control
 
-<!-- Add a screenshot or GIF of the app as images/demo.png -->
-![Virtual Mouse app detecting a hand gesture](images/demo.png)
+![The Streamlit app with camera controls and the on-screen keyboard](images/app-ui.png)
+
+<!-- To show gestures, record a short GIF with your webcam and save it as images/demo.gif -->
 
 Control your computer's mouse with hand gestures through a webcam, with no touch needed. Built with Python, MediaPipe and OpenCV, with a Streamlit interface. Screenshots taken by gesture are uploaded to Cloudinary automatically.
 
@@ -13,14 +14,18 @@ Control your computer's mouse with hand gestures through a webcam, with no touch
 
 Traditional input devices aren't always practical. Touchless control helps in hygiene-sensitive settings and for accessibility. **Can a plain webcam and software alone replace the mouse for everyday actions?**
 
-## How it works
+## Data
+
+Live webcam frames. There is no training set: hand landmarks come from MediaPipe's pretrained hand model.
+
+## Method
 
 1. **Hand tracking:** MediaPipe Hands finds 21 landmarks on one hand in each webcam frame.
 2. **Geometry:** `util.py` measures the angles at finger joints and the distance between thumb and index finger.
 3. **Gesture rules:** those angles, distances and a raised-finger count are mapped to mouse actions, with a short delay so one gesture doesn't fire repeatedly.
 4. **Action:** PyAutoGUI and pynput move the cursor, click, scroll or take a screenshot.
 
-## Gestures
+## Results: gesture map
 
 | Gesture | Action |
 |---|---|
@@ -59,6 +64,11 @@ streamlit run streamlit_app.py
 ```
 
 It needs a webcam and must run on your own computer, because it controls your local mouse.
+
+## Limitations
+
+- Runs only on your own computer with a webcam, because it controls the local mouse.
+- Gestures are fixed angle and distance rules; recognition accuracy hasn't been measured on a test set yet.
 
 ## Project structure
 
